@@ -1,5 +1,8 @@
 :root {
   --primary-color: #ff9854;
+
+  /* 这里修改的话会造成全局修改 */
+  /* --van-tabbar-item-icon-size: 30px; */
 }
 
 body {
