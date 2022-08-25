@@ -3,7 +3,9 @@ import { computed } from '@vue/reactivity'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import useCityStore from '../../stores/modules/city'
+import useCityStore from '@/stores/modules/city'
+
+import CityGroup from './cpns/city-group.vue'
 
 const router = useRouter()
 
@@ -28,7 +30,7 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
 </script>
 
 <template>
-  <div class="top-page">
+  <div class="city top-page">
     <div class="top">
       <van-search
         v-model="searchValue"
@@ -44,8 +46,8 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
       </van-tabs>
     </div>
     <div class="content">
-      <template v-for="item in currentGroup?.cities">
-        <div>{{item}}</div>
+      <template v-for="(value, key, index) in allCities">
+        <CityGroup v-show="tabActive === key" :group-data="value" />
       </template>
     </div>
   </div>
@@ -53,6 +55,7 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
 
 <style lang="less" scoped>
   .city {
+    --van-tab-line-height: 30px;
     // top固定定位
     // .top {
     //   position: fixed;

@@ -6,6 +6,8 @@
 
   /* 全局修改search样式 */
   --van-search-left-icon-color: var(--primary-color) !important;
+  --line-color: #faf8f9;
+  --theme-linear-gradient: linear-gradient(90deg, #fa8c1d, #fcaf3f);
 }
 
 body {
@@ -19,4 +21,8 @@ body {
   background-color: #fff;
 
   overflow-y: auto;
+}
+
+.bottom-gray-line {
+  border-bottom: 1px solid var(--line-color);
 }

@@ -1,6 +1,12 @@
 <script setup>
 import HomeNavBar from './cpns/home-nav-bar.vue'
 import HomeSearchBox from './cpns/home-search-box.vue'
+import useHomeStore from "@/stores/modules/home"
+
+const homeStore = useHomeStore()
+homeStore.fetchHotSuggestData()
+// homeStore.fetchCategoriesData()
+// homeStore.fetchHouselistData()
 </script>
 
 <template>
