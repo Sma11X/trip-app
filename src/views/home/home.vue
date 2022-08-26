@@ -7,6 +7,7 @@ import HomeContent from '@/views/home/cpns/HomeContent.vue'
 import { watch, ref } from 'vue'
 import useScroll from '@/hooks/useScroll'
 import { computed } from '@vue/reactivity'
+import SearchBar from '@/components/search-bar/search-bar.vue'
 
 const homeStore = useHomeStore()
 homeStore.fetchHotSuggestData()
@@ -25,7 +26,7 @@ watch(isReachBottom, (newValue) => {
 
 // 定义的可响应式数据依赖另外一个可响应式数据，使用计算属性
 const isShowSearchBar = computed(() => {
-  return scrollTop.value >= 100
+  return scrollTop.value >= 350
 })
 </script>
 
@@ -37,6 +38,9 @@ const isShowSearchBar = computed(() => {
     </div>
     <HomeSearchBox></HomeSearchBox>
     <HomeCategories></HomeCategories>
+    <div class="search-bar" v-if="isShowSearchBar">
+      <SearchBar></SearchBar>
+    </div>
     <HomeContent></HomeContent>
   </div>
 </template>
@@ -49,5 +53,16 @@ const isShowSearchBar = computed(() => {
     img {
       width: 100%;
     }
+  }
+
+  .search-bar {
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    padding: 16px 16px 10px;
+    background-color: #fff;
   }
 </style>
