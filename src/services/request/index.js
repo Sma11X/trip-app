@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { BASE_URL, TIMEOUT } from './config'
-// import useMainStore from '@/stores/modules/main'
+import useMainStore from '@/stores/modules/main'
 
-// const mainStore = useMainStore()
+const mainStore = useMainStore()
 
 class Request {
   constructor(baseURL, timeout=10000) {
@@ -12,16 +12,16 @@ class Request {
     })
 
     this.instance.interceptors.request.use(config => {
-      // mainStore.isLoading = true
+      mainStore.isLoading = true
       return config
     }, err => {
       return err
     })
     this.instance.interceptors.response.use(res => {
-      // mainStore.isLoading = false
+      mainStore.isLoading = false
       return res
     }, err => {
-      // mainStore.isLoading = false
+      mainStore.isLoading = false
       return err
     })
   }
