@@ -9,10 +9,10 @@ const homeStore = useHomeStore()
 const { houselist } = storeToRefs(homeStore)
 
 const router = useRouter()
-// const itemClick = (item) => {
-//   // 跳转到Detail页面
-//   router.push("/detail/" + item.houseId)
-// }
+const itemClick = (item) => {
+  // 跳转到Detail页面
+  router.push("/detail/" + item.houseId)
+}
 
 </script>
 
@@ -24,10 +24,12 @@ const router = useRouter()
         <HouseItemV9
             v-if="item.discoveryContentType === 9"
             :item-data="item.data"
+            @click="itemClick(item.data)"
         />
         <HouseItemV3
             v-else-if="item.discoveryContentType === 3"
             :item-data="item.data"
+            @click="itemClick(item.data)"
         />
       </template>
     </div>
