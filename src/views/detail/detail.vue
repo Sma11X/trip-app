@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { getDetailInfos } from "@/services"
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import TabControl from '@/components/tab-control/TabControl.vue'
 import DetailSwipe from './cpns/DetailSwipe.vue'
@@ -51,21 +51,45 @@ const ShowTabControl = computed(() => {
 const sectionEls = ref({})
 const names = computed(() => Object.keys(sectionEls.value))
 const getSectionRef = (value) => {
+  if(!value) return
   const name = value.$el.getAttribute('name')
   sectionEls.value[name] = value.$el
 }
+let isClick = false
+let currentDistance = -1
 const tabClick = (index) => {
   const key = Object.keys(sectionEls.value)[index]
   const el = sectionEls.value[key]
-  let instance = el.offsetTop
+  let distance = el.offsetTop
   if(index !== 0) {
-    instance = instance - 44
+    distance = distance - 44
   }
+  isClick = true
+  currentDistance = distance
   detailRef.value.scrollTo({
-    top: instance,
+    top: distance,
     behavior: "smooth"
   })
 }
+
+const tabControlRef = ref()
+watch(scrollTop, (newValue) => {
+  if(newValue == currentDistance) isClick = false
+  if(isClick) return
+  // 获取所有区域offsetTop
+  const els = Object.values(sectionEls.value)
+  const values = els.map(el => el.offsetTop)
+
+  // 根据newValue匹配
+  let index = values.length - 1
+  for(let i = 0; i < values.length; i++) {
+    if(values[i] > newValue + 44) {
+      index = i - 1
+      break;
+    }
+  }
+  tabControlRef.value?.setCurrentIndex(index)
+})
 </script>
 
 <template>
@@ -75,6 +99,7 @@ const tabClick = (index) => {
       class="tabs"
       :titles="names"
       @tabItemClick="tabClick"
+      ref="tabControlRef"
     />
     <van-nav-bar
       title="房屋详情"

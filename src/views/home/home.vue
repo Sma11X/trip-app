@@ -1,10 +1,10 @@
-<script setup>
+<script setup name="home">
 import HomeNavBar from '@/views/home/cpns/HomeNavBar.vue'
 import HomeSearchBox from '@/views/home/cpns/HomeSearchBox.vue'
 import useHomeStore from "@/stores/modules/home"
 import HomeCategories from '@/views/home/cpns/HomeCategories.vue'
 import HomeContent from '@/views/home/cpns/HomeContent.vue'
-import { watch, ref } from 'vue'
+import { watch, ref, onActivated } from 'vue'
 import useScroll from '@/hooks/useScroll'
 import { computed } from '@vue/reactivity'
 import SearchBar from '@/components/search-bar/search-bar.vue'
@@ -14,7 +14,8 @@ homeStore.fetchHotSuggestData()
 homeStore.fetchCategoriesData()
 homeStore.fetchHouselistData()
 
-const { isReachBottom, scrollTop } = useScroll()
+const homeRef = ref()
+const { isReachBottom, scrollTop } = useScroll(homeRef)
 // 执行其他代码
 watch(isReachBottom, (newValue) => {
   if(newValue) {
@@ -28,10 +29,17 @@ watch(isReachBottom, (newValue) => {
 const isShowSearchBar = computed(() => {
   return scrollTop.value >= 350
 })
+
+// 跳转回home保留原来位置
+onActivated(() => {
+  homeRef.value?.scrollTo({
+    top: scrollTop.value
+  })
+})
 </script>
 
 <template>
-  <div class="home">
+  <div class="home" ref="homeRef">
     <HomeNavBar></HomeNavBar>
     <div class="banner">
       <img src="@/assets/img/home/banner.webp" alt="">
@@ -48,6 +56,10 @@ const isShowSearchBar = computed(() => {
 <style lang="less" scoped>
   .home {
     padding-bottom: 60px;
+
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
   }
   .banner {
     img {

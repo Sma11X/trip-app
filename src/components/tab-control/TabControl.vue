@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+  import { ref } from 'vue'
 
   const props = defineProps({
     titles: {
@@ -15,6 +15,11 @@ import { ref } from 'vue';
     currentIndex.value = index
     emit('tabItemClick', index)
   }
+
+  const setCurrentIndex = (index) => {
+    currentIndex.value = index
+  }
+  defineExpose({setCurrentIndex})
 </script>
 
 <template>
