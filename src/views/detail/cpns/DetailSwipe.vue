@@ -9,13 +9,9 @@
   // 数据转换
   const swipeGruop = {}
   for(const item of props.swipeData) {
-    let valueArray = swipeGruop[item.enumPictureCategory]
-    if(!valueArray) {
-      valueArray = []
-      swipeGruop[item.enumPictureCategory] = valueArray
-    }
-
-    valueArray.push(item)
+    const key = item.enumPictureCategory
+    if (!swipeGruop[key]) swipeGruop[key] = []
+    swipeGruop[key].push(item)
   }
 
   // 定义转换数据方法

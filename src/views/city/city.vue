@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useCityStore from '@/stores/modules/city'
 
-import CityGroup from './cpns/city-group.vue'
+import CityGroup from './cpns/CityGroup.vue'
 
 const router = useRouter()
 
